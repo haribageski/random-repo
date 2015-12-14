@@ -5,14 +5,14 @@ import java.util.List;
 
 public class Country implements InputObject
 {
-	public Country(List<String> stringParams)
+	public Country(String[] stringParams)
 	{
-		_id = stringParams.get(0);
-		_code = stringParams.get(1);
-		_name = stringParams.get(2);
-		_continent = stringParams.get(3);
-		_wikipedia = stringParams.get(4);
-		_keywords = stringParams.get(5);
+		_id = stringParams[0];
+		_code = stringParams[1];
+		_name = stringParams[2];
+		_continent = stringParams[3];
+		_wikipedia = stringParams[4];
+		_keywords = stringParams[5];
 	}
 	
 	private String _id;

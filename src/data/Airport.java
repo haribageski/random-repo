@@ -4,28 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Airport implements InputObject{
-	public Airport(List<String> stringParams)
+	public Airport(String[] stringParams)
 	{
-		_id = stringParams.get(0);
-		_ident = stringParams.get(1);
-		_type = stringParams.get(2);
-		_name = stringParams.get(3);
-		_continent = stringParams.get(7);
-		_iso_country = stringParams.get(8);
-		_iso_region = stringParams.get(9);
-		_municipality = stringParams.get(10);
-		_gps_code = stringParams.get(12);
-		_iata_code = stringParams.get(13);
-		_local_code = stringParams.get(14);
-		_home_link = stringParams.get(15);
-		_wikipedia_link = stringParams.get(16);
-		_keywords = stringParams.get(17);
+		_id = stringParams[0];
+		_ident = stringParams[1];
+		_type = stringParams[2];
+		_name = stringParams[3];
+		_continent = stringParams[7];
+		_iso_country = stringParams[8];
+		_iso_region = stringParams[9];
+		_municipality = stringParams[10];
+		_gps_code = stringParams[12];
+		_iata_code = stringParams[13];
+		_local_code = stringParams[14];
+		_home_link = stringParams[15];
+		_wikipedia_link = stringParams[16];
+		_keywords = stringParams[17];
 		
-		_scheduled_service = Boolean.parseBoolean(stringParams.get(11));
+		_scheduled_service = Boolean.parseBoolean(stringParams[11]);
 		
-		_latitude_deg = Double.parseDouble(stringParams.get(4));
-		_longitude_deg = Double.parseDouble(stringParams.get(5));
-		_elevation_ft = Double.parseDouble(stringParams.get(6));
+		_latitude_deg = Double.parseDouble(stringParams[4]);
+		_longitude_deg = Double.parseDouble(stringParams[5]);
+		_elevation_ft = Double.parseDouble(stringParams[6]);
 	};
 	
 	String _id, _ident, _type, _name, _continent, _iso_country, _iso_region, _municipality;

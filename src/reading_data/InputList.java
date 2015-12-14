@@ -1,8 +1,12 @@
 package reading_data;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,80 +21,68 @@ import data.Country;
 
 public class InputList 
 {
-	private String _inFileName;
+	private InputStream _inFileStream;
 	// We will use topMeny HashMap to iterate through the parameters of a Country
-	private List<String> _topMenu;
-	private List<String> _rowVals;
-	private List< List<String> > _allRows;
+	private String[] _topMenu;
+	private String[] _rowVals;
+	private List< String[] > _allRows;
 	
 	InputList(){};
-	public InputList(String inFileName)
+	public InputList(InputStream inStream)
 	{
-		this._inFileName = inFileName;
-	    this._allRows = new ArrayList<List<String> >();
-	    this._topMenu = new ArrayList<String>();
+		this._inFileStream = inStream;
+	    this._allRows = new ArrayList<String[]>();
 	}
 	    
 	
-	public List< List<String> > getAllRows()
+	public List< String[]> getAllRows()
 	{
 		return this._allRows;
 	}
 	
-	public void readFromExcel() throws IOException
+	public void readCSV() throws IOException
 	{
+		//System.out.println(this._inFileStream.toString());
+		if(this._inFileStream == null)
+		{
+			System.out.println("_inFileStream in InputList is null");
+			return;
+		}
+			BufferedReader bfrReader = new BufferedReader(new InputStreamReader(this._inFileStream));;
+		String line = "";
+		String cvsSplitBy = ",";
+
 		try {
-			InputStream is = new FileInputStream(this._inFileName );
-		    POIFSFileSystem fs = new POIFSFileSystem(is);
-		    HSSFWorkbook wb = new HSSFWorkbook(fs);
-		    HSSFSheet sheet = wb.getSheetAt(0);
-		    HSSFRow row;
-		    HSSFCell cell;
-	
-		    int rows = sheet.getPhysicalNumberOfRows();		// No of rows
-	
-		    int maxColumnsInRows = 0; // No of columns
-		    int numColsInCurrentRow = 0;
-	
-		    // This trick ensures that we get the data properly even if it doesn't start from first few rows
-		    for(int i = 0; i < 10 || i < rows; i++) {
-		        row = sheet.getRow(i);
-		        if(row != null) {
-		            numColsInCurrentRow = sheet.getRow(i).getPhysicalNumberOfCells();
-		            if(numColsInCurrentRow > maxColumnsInRows) 
-		            	maxColumnsInRows = numColsInCurrentRow;
-		        }
-		    }
-	
-		    for(int r = 0; r < rows; r++) 
-		    {
-		        row = sheet.getRow(r);
-		        _rowVals = new ArrayList<String>();
-		        if(row != null) 
-		        {
-		            for(int c = 0; c < maxColumnsInRows; c++) 
-		            {
-		                cell = row.getCell((short)c);
-		                if(cell != null)
-		                {
-		                	if(r == 0)
-		                		_topMenu.add(cell.toString());
-		                	else
-			                	_rowVals.add(cell.toString());
-		                }
-		                else
-		                {
-		                	if(r == 0)
-		                		_topMenu.add("");
-		                	else
-		                		_rowVals.add("");
-		                }
-		            }
-		        }
-		        _allRows.add(_rowVals);
-		    }
-		} catch(Exception ioe) {
-		    ioe.printStackTrace();
+			boolean isFirstLine = true;
+			while ((line = bfrReader.readLine()) != null) 
+			{
+			    // use comma as separator
+				String[] row = line.split(cvsSplitBy,-1);
+				if(isFirstLine)
+				{
+					this._topMenu = row;
+					isFirstLine = false;
+				}
+				else
+				{
+					for(int i = 0; i < row.length; i++)
+						System.out.print(row[i] + '\t');
+					System.out.println();
+					this._allRows.add(row);
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (bfrReader != null) {
+				try {
+					bfrReader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 }
