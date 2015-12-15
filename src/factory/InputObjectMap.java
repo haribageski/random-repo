@@ -2,17 +2,17 @@ package factory;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Set;
 
 import data.InputObject;
 import reading_data.InputList;
 
-public class InputObjectMap {
-	private String _type;
+public class InputObjectMap 
+{
 	private HashMap<String, InputObject> _inputMap;
 
-	InputObjectMap(String type)
+	InputObjectMap()
 	{
-		this._type = type;
 		this._inputMap = new HashMap<String, InputObject> ();
 	}
 	
@@ -21,10 +21,14 @@ public class InputObjectMap {
 		this._inputMap.put(str, inObj);
 	}
 	
-	protected InputObject getObjFromMap(String str, InputObject inObj)
+	protected InputObject getObjFromMap(String str)
 	{
 		return this._inputMap.get(str);
 	}
 	
+	protected Set<String> getAllKeysFromMap()
+	{
+		return this._inputMap.keySet();
+	}
 	
 }
