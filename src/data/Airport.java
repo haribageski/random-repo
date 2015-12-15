@@ -1,8 +1,5 @@
 package data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Airport implements InputObject
 {
 	String _id = "", _ident = "", _type = "", _name = "", _continent = "", _iso_country = "",
@@ -10,7 +7,7 @@ public class Airport implements InputObject
 			_local_code = "", _home_link = "", _wikipedia_link = "", _keywords = "";
 	boolean _scheduled_service = false;
 	double _latitude_deg = 0, _longitude_deg = 0, _elevation_ft = 0;
-
+	
 
 	public Airport(String[] stringParams)
 	{
@@ -33,13 +30,22 @@ public class Airport implements InputObject
 			
 			_scheduled_service = Boolean.parseBoolean(stringParams[11]);
 			
-			_latitude_deg = Double.parseDouble(stringParams[4]);
-			_longitude_deg = Double.parseDouble(stringParams[5]);
-			_elevation_ft = Double.parseDouble(stringParams[6]);
+			try{
+				if(!stringParams[4].isEmpty())
+					_latitude_deg = Double.parseDouble(stringParams[4]);
+				if(!stringParams[5].isEmpty())
+					_longitude_deg = Double.parseDouble(stringParams[5]);
+				if(!stringParams[6].isEmpty())
+					_elevation_ft = Double.parseDouble(stringParams[6]);
+			}
+			catch (NumberFormatException e) {
+				//e.printStackTrace();
+			}
+			
 		}	
 	};
 	
-	public String getCountryName() {
+	public String getCountryCode() {
 		return this._iso_country;
 	}
 	
@@ -62,6 +68,23 @@ public class Airport implements InputObject
 	
 	public int compare(Airport obj) {
 		return this.getAirportName().compareTo(obj.getAirportName());
+	}
+
+	@Override
+	public void printObject() {
+
+		System.out.print("\tAirport \"" + this.getAirportName() + "\", ");
+		if(!this._municipality.equals(""))
+			System.out.println("located in " + this._municipality + ".");
+		if(!this._type.equals(""))
+			System.out.println("\tIt is of type " + this._type + ".");
+		if(this._scheduled_service)
+			System.out.println("\tIt has a scheduled_service.");
+		if(!this._home_link.equals(""))
+			System.out.println("\tIt website is " + this._home_link + ".");
+		if(!this._home_link.equals(""))
+			System.out.println("\tYou can read more about this airport on wikipedia: " + this._wikipedia_link + ".");
+		System.out.println();
 	};
 }
 

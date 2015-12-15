@@ -9,7 +9,7 @@ public class CountryTest {
 	@Test
 	public void testGetCode() {
 		Country country = new Country(new String[0]);
-		assertEquals(null , country.getCode());		//code of initialized empty object
+		assertEquals("" , country.getCode());		//code of initialized empty object
 		
 		
 		String[] countryParams = new String[]{
@@ -23,7 +23,7 @@ public class CountryTest {
 	@Test
 	public void testGetCountryName() {
 		Country country = new Country(new String[0]);
-		assertEquals(null , country.getCountryName());		//code of initialized empty object
+		assertEquals("" , country.getCountryName());		//code of initialized empty object
 		
 		
 		String[] countryParams = new String[]{

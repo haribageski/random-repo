@@ -9,13 +9,14 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import data.Airport;
 import data.Country;
 import data.InputObject;
 import reading_data.InputList;
 
 public class MapFactoryTest 
 {
-	MapFactory mapFactory = new MapFactory("country");
+	MapFactory mapFactory = new MapFactory();
 	InputStream inStream = MapFactory.class.getClassLoader().getResourceAsStream("countries.csv");
 	InputList inputList = mapFactory.readFile(inStream);
 	String [] ctry = new String[]{
@@ -56,23 +57,52 @@ public class MapFactoryTest
 
 	@Test
 	public void testBuildMap() {
-		InputObjectMap inputObjectMap = mapFactory.buildMap(inputList);
-
-		//check the size of the map
+		mapFactory.buildMap(inputList , "country", "name");
+		InputObjectMap inputObjectMap = mapFactory.getMapCtryNameToCountry();
+		//check the size of the map from names as keys
 		assertEquals(247 , inputObjectMap.getAllKeysFromMap().size());		
 		
-		//check if the map has element with key the code of the first country
-		Country ctryObject = new Country(ctry);
-		assertEquals(ctryObject , inputObjectMap.getObjFromMap(ctryObject.getCode()) );
 		
-		//check if the map has element with key the code of the last country
 		String [] ctryLast = new String[]{
 				"302613", "ZZ", "Unknown or unassigned country", "AF", 
 				"http://en.wikipedia.org/wiki/Unknown_or_unassigned_country", ""
-
 		};
+		
+		//check if the map maps the country name to object first country
+		Country ctryObject = new Country(ctry);
+		assertEquals(ctryObject , inputObjectMap.getObjFromMap(ctryObject.getCountryName()) );
+		
+		//check if the map has element with key the code of the last country
+		ctryObject = new Country(ctryLast);
+		assertEquals(ctryObject , inputObjectMap.getObjFromMap(ctryObject.getCountryName()) );
+		
+		mapFactory.buildMap(inputList ,"country", "code");
+		inputObjectMap = mapFactory.getMapCtryCodeToCountry();
+		//check the size of the map from code names as keys
+		assertEquals(247 , inputObjectMap.getAllKeysFromMap().size());		
+		
+		//check if the map has element with key the code of the first country
+		ctryObject = new Country(ctry);
+		assertEquals(ctryObject , inputObjectMap.getObjFromMap(ctryObject.getCode()) );
+		
+		//check if the map has element with key the code of the last country
 		ctryObject = new Country(ctryLast);
 		assertEquals(ctryObject , inputObjectMap.getObjFromMap(ctryObject.getCode()) );
+		
+		
+		inStream = MapFactory.class.getClassLoader().getResourceAsStream("airports.csv");
+		inputList = mapFactory.readFile(inStream);
+		mapFactory.buildMap(inputList, "airport", "");
+		inputObjectMap = mapFactory.getMapAirportIdentToAirport();
+		//check the size of the map from names as keys
+		assertEquals(46505 , inputObjectMap.getAllKeysFromMap().size());		
+		
+		inStream = MapFactory.class.getClassLoader().getResourceAsStream("runways.csv");
+		inputList = mapFactory.readFile(inStream);
+		mapFactory.buildMap(inputList, "runway", "");
+		inputObjectMap = mapFactory.getMapRunwayIdToRunway();
+		//check the size of the map from names as keys
+		assertEquals(39536 , inputObjectMap.getAllKeysFromMap().size());		
 	}
 	
 	
@@ -80,20 +110,10 @@ public class MapFactoryTest
 	public void testGetMapFromInput() 
 	{
 		//test if reading of files and populating maps passes
-		MapFactory mapFactory = new MapFactory("airport");
+		MapFactory mapFactory = new MapFactory();
 		assertEquals(true , mapFactory != null);
 		
-		mapFactory = new MapFactory("runway");
-		assertEquals(true , mapFactory != null);
-		
-		mapFactory = new MapFactory("country");
-		assertEquals(true , mapFactory != null);
-		
-		
-		
-		mapFactory = new MapFactory("test_country");
-		assertEquals(true , mapFactory != null);
-		mapFactory.getMapFromInput();
+		mapFactory.populateMap();
 		
 		
 		//check if the map is correctly populated from files
@@ -101,18 +121,22 @@ public class MapFactoryTest
 		inputObjectMap.putToInputMap(inputObject.getCode(), inputObject);
 		
 		
-		//check if they have same keys
-		assertEquals(inputObjectMap.getAllKeysFromMap() , 
-				mapFactory.getMapFromInput().getAllKeysFromMap());	
 		
 		//check if they have same values
-		Set<String> keys2 =  mapFactory.getMapFromInput().getAllKeysFromMap();
+		Set<String> keys2 =  mapFactory.getMapTest().getAllKeysFromMap();
 		Iterator iterator2 = keys2.iterator(); 
 		while (iterator2.hasNext())
 		{
 			String key = (String) iterator2.next();
 			assertEquals(inputObjectMap.getObjFromMap(key), 
-					mapFactory.getMapFromInput().getObjFromMap(key));
+					mapFactory.getMapTest().getObjFromMap(key));
 		}
+		
+		//test if country  maps to a airports correctly
+		assertEquals(26 , mapFactory.getMapCtryIdToAirportId().get("RS").size()); 
+		
+		
+		//test if airport maps to a runways correctly
+		assertEquals(null , mapFactory.getMapAirportIdToRunwayId().get("OOA")); 
 	}
 }

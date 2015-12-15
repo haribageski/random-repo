@@ -1,11 +1,10 @@
 package factory;
 
-import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 
 import data.InputObject;
-import reading_data.InputList;
 
 public class InputObjectMap 
 {
@@ -21,7 +20,7 @@ public class InputObjectMap
 		this._inputMap.put(str, inObj);
 	}
 	
-	protected InputObject getObjFromMap(String str)
+	public InputObject getObjFromMap(String str)
 	{
 		return this._inputMap.get(str);
 	}
@@ -31,4 +30,19 @@ public class InputObjectMap
 		return this._inputMap.keySet();
 	}
 	
+	public void printListOfObjects()
+	{
+		Set<String> keys =  this.getAllKeysFromMap();
+		Iterator iterator = keys.iterator(); 
+		while (iterator.hasNext())
+		{
+			String key = (String) iterator.next();
+			this.getObjFromMap(key).printObject();
+		}
+	}
+	
+	public boolean containsKey(String key)
+	{
+		return this._inputMap.containsKey(key);
+	}
 }

@@ -1,8 +1,5 @@
 package data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Country implements InputObject
 {
 	public Country(String[] stringParams)
@@ -47,5 +44,14 @@ public class Country implements InputObject
 	
 	public int compare(Country ctry) {
 		return this.getCountryName().compareTo(ctry.getCountryName());
+	}
+
+
+	@Override
+	public void printObject() {
+		System.out.println("The country " + this.getCountryName() + " is situated on the continent " +
+				this._continent + ", ");
+		System.out.println("and you can learn more about this country at " + this._wikipedia);
+		System.out.println();
 	};
 }
