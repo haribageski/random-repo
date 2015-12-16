@@ -5,14 +5,14 @@ import java.util.Scanner;
 import data.Airport;
 import data.Country;
 import data.Runway;
-import factory.MapFactory;
+import mapBuilder.MapBuilder;
 
 public class UseListsForPrinting {
 
 	public static void main(String[] args) {
 		System.out.println("Reading data ...");
 		
-		MapFactory mapFactory = new MapFactory();
+		MapBuilder mapFactory = new MapBuilder();
 		mapFactory.populateMap();
 
 		Scanner sc = new Scanner(System.in);

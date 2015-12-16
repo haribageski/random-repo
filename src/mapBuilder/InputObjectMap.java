@@ -1,4 +1,4 @@
-package factory;
+package mapBuilder;
 
 import java.util.HashMap;
 import java.util.Iterator;

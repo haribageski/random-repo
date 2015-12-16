@@ -1,4 +1,4 @@
-package factory;
+package mapBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,7 +10,7 @@ import data.Country;
 import data.Runway;
 import reading_data.InputList;
 
-public class MapFactory 
+public class MapBuilder 
 {
 
 	private InputStream inStream = null;
@@ -23,7 +23,7 @@ public class MapFactory
 	private InputObjectMap mapRunwayIdToRunway = null;
 	private InputObjectMap mapTest = null;
 	
-	public MapFactory()
+	public MapBuilder()
 	{
 		mapCtryNameToCountry = new InputObjectMap();
 		mapCtryCodeToCountry = new InputObjectMap();
@@ -94,17 +94,17 @@ public class MapFactory
 	{	
 		if(type.equals("country"))
 		{
-			inStream =  MapFactory.class.getClassLoader().getResourceAsStream("countries.csv");
+			inStream =  MapBuilder.class.getClassLoader().getResourceAsStream("countries.csv");
 		}
 		else
 			if(type.equals("airport"))	
-				inStream = MapFactory.class.getClassLoader().getResourceAsStream("airports.csv");
+				inStream = MapBuilder.class.getClassLoader().getResourceAsStream("airports.csv");
 		else
 			if(type.equals("runway"))	
-				inStream = MapFactory.class.getClassLoader().getResourceAsStream("runways.csv");
+				inStream = MapBuilder.class.getClassLoader().getResourceAsStream("runways.csv");
 		else
-			if(MapFactory.class.getClassLoader().getResourceAsStream(type + ".csv") != null)	
-				inStream = MapFactory.class.getClassLoader().getResourceAsStream(type + ".csv");
+			if(MapBuilder.class.getClassLoader().getResourceAsStream(type + ".csv") != null)	
+				inStream = MapBuilder.class.getClassLoader().getResourceAsStream(type + ".csv");
 		else
 			return;
 		

@@ -1,4 +1,4 @@
-package factory;
+package mapBuilder;
 
 import static org.junit.Assert.*;
 
@@ -14,10 +14,10 @@ import data.Country;
 import data.InputObject;
 import reading_data.InputList;
 
-public class MapFactoryTest 
+public class MapBuilderTest 
 {
-	MapFactory mapFactory = new MapFactory();
-	InputStream inStream = MapFactory.class.getClassLoader().getResourceAsStream("countries.csv");
+	MapBuilder mapFactory = new MapBuilder();
+	InputStream inStream = MapBuilder.class.getClassLoader().getResourceAsStream("countries.csv");
 	InputList inputList = mapFactory.readFile(inStream);
 	String [] ctry = new String[]{
 			"302672", "AD", "Andorra", "EU", "http://en.wikipedia.org/wiki/Andorra" , ""
@@ -90,14 +90,14 @@ public class MapFactoryTest
 		assertEquals(ctryObject , inputObjectMap.getObjFromMap(ctryObject.getCode()) );
 		
 		
-		inStream = MapFactory.class.getClassLoader().getResourceAsStream("airports.csv");
+		inStream = MapBuilder.class.getClassLoader().getResourceAsStream("airports.csv");
 		inputList = mapFactory.readFile(inStream);
 		mapFactory.buildMap(inputList, "airport", "");
 		inputObjectMap = mapFactory.getMapAirportIdentToAirport();
 		//check the size of the map from names as keys
 		assertEquals(46505 , inputObjectMap.getAllKeysFromMap().size());		
 		
-		inStream = MapFactory.class.getClassLoader().getResourceAsStream("runways.csv");
+		inStream = MapBuilder.class.getClassLoader().getResourceAsStream("runways.csv");
 		inputList = mapFactory.readFile(inStream);
 		mapFactory.buildMap(inputList, "runway", "");
 		inputObjectMap = mapFactory.getMapRunwayIdToRunway();
@@ -110,7 +110,7 @@ public class MapFactoryTest
 	public void testGetMapFromInput() 
 	{
 		//test if reading of files and populating maps passes
-		MapFactory mapFactory = new MapFactory();
+		MapBuilder mapFactory = new MapBuilder();
 		assertEquals(true , mapFactory != null);
 		
 		mapFactory.populateMap();
