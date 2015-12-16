@@ -10,10 +10,11 @@ import factory.MapFactory;
 public class UseListsForPrinting {
 
 	public static void main(String[] args) {
+		System.out.println("Reading data ...");
+		
 		MapFactory mapFactory = new MapFactory();
 		mapFactory.populateMap();
 
-		System.out.println("Please enter a country name or code in console...");
 		Scanner sc = new Scanner(System.in);
 		
 		Country selectedCtry = null;
@@ -23,7 +24,10 @@ public class UseListsForPrinting {
 		while(true)
 		{
 			if(quitSign == "")
+			{
+				System.out.println("Please enter a country name or code in console...");
 				input = sc.next();
+			}
 			else
 			{
 				input = quitSign;
@@ -57,9 +61,10 @@ public class UseListsForPrinting {
 				System.out.println("\tThere is no data for airports associated with this country.");
 				continue;
 			}
+			System.out.println("The following airports are located in the country:");
+			System.out.println();
 			for(String ctryAirportId :  mapFactory.getMapCtryIdToAirportId().get(selectedCtry.getCode()))
 			{
-				System.out.println("ctryAirportId:" + ctryAirportId);
 				Airport ctryAirport = (Airport) mapFactory.getMapAirportIdentToAirport().getObjFromMap(ctryAirportId);
 				ctryAirport.printObject();
 				if(!mapFactory.getMapAirportIdToRunwayId().containsKey(ctryAirportId))
@@ -67,6 +72,8 @@ public class UseListsForPrinting {
 					System.out.println("\tThere is no data for runways associated with this airport.");
 					continue;
 				}
+				System.out.println("\tThe following runways are related to the above airport:");
+				System.out.println();
 				for(String airportRwayId : mapFactory.getMapAirportIdToRunwayId().get(ctryAirportId))
 				{
 					Runway airportRway = (Runway) mapFactory.getMapRunwayIdToRunway().getObjFromMap(airportRwayId);

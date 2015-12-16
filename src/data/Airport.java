@@ -84,7 +84,6 @@ public class Airport implements InputObject
 			System.out.println("\tIt website is " + this._home_link + ".");
 		if(!this._home_link.equals(""))
 			System.out.println("\tYou can read more about this airport on wikipedia: " + this._wikipedia_link + ".");
-		System.out.println();
 	};
 }
 

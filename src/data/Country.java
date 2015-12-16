@@ -52,6 +52,5 @@ public class Country implements InputObject
 		System.out.println("The country " + this.getCountryName() + " is situated on the continent " +
 				this._continent + ", ");
 		System.out.println("and you can learn more about this country at " + this._wikipedia);
-		System.out.println();
 	};
 }
